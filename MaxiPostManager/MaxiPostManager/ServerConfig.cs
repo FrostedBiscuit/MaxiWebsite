@@ -8,15 +8,9 @@ namespace MaxiPostManager {
 
     public static class ServerConfig {
 
-        public static string MongoDBConnectionString {
+        public static string MaxiPostURL {
             get {
-                return "mongodb+srv://gKaucic:test123@myfirstcluster-2zpvc.gcp.mongodb.net/test?retryWrites=true&w=majority";
-            }
-        }
-
-        public static string MaxiImagePostURL {
-            get {
-                return "http://localhost:3000/uploadImage";
+                return "http://localhost:3000/uploadPost"; // Change this for production
             }
         }
     }

@@ -1,14 +1,13 @@
-﻿using System;
-using MongoDB.Driver;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace MaxiPostManager {
 
     public static class PostManager {
 
-        static IMongoDatabase db;
-
         static bool init = false;
+
+        private static HttpClient client;
 
         public static void Init() {
 
@@ -16,35 +15,32 @@ namespace MaxiPostManager {
                 return;
             }
 
-            init = true;
-
-            MongoClient client = new MongoClient(ServerConfig.MongoDBConnectionString);
-
-            db = client.GetDatabase("MaxiPosts");
+            client = new HttpClient();
         }
 
-        public static void InsertPost(Post post) {
+        public static void AddPost(Post post) {
 
-            IMongoCollection<Post> collection = db.GetCollection<Post>("Posts");
+            HttpContent postContent = new StringContent(JsonConvert.SerializeObject(post), System.Text.Encoding.UTF8, "application/json");
 
-            collection.InsertOne(post);
+            client.PostAsync(ServerConfig.MaxiPostURL, postContent);
         }
     }
 
     public class Post {
 
-        [BsonId]
-        public Guid ID { get; protected set; }
-
         public string Title { get; protected set; }
         public string Content { get; protected set; }
-        public string ServersideImageDir { get; protected set; }
+        public string Image64 { get; protected set; }
 
-        public Post(string title, string content, string serversideImgDir) {
+        public long Date { get; protected set; }
+
+        public Post(string title, string content, string img64) {
 
             Title = title;
             Content = content;
-            ServersideImageDir = serversideImgDir;
+            Image64 = img64;
+
+            Date = System.DateTimeOffset.Now.ToUnixTimeSeconds();
         }
     }
 }

@@ -1,8 +1,8 @@
 NavBarMaxi
-MaxiBackend/images/
+MaxiBackend/images/*
 MaxiBackend/node_modules
 
-
+*.db
 
 # Visual Studio
 # User-specific files

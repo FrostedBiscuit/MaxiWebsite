@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MaxiPostManager {
@@ -16,9 +10,9 @@ namespace MaxiPostManager {
             InitializeComponent();
         }
 
-        private string selectedImgPath;
+        private string selectedImgPath = "";
 
-        private async void SubmitButton_Click(object sender, EventArgs e) {
+        private void SubmitButton_Click(object sender, EventArgs e) {
 
             if (TitleInputBox.Text == "") {
 
@@ -47,11 +41,13 @@ namespace MaxiPostManager {
                 return;
             }
 
-            string serverImgDir = await ImageUploader.PostImage(selectedImgPath);
+            // Waaaaaaaaay tooo hacky for my liking
+            string imgExtension = Path.GetExtension(selectedImgPath).ToLower();
+            string img64 = $"data:image/{imgExtension};base64,{Convert.ToBase64String(File.ReadAllBytes(selectedImgPath))}";
 
-            Post newPost = new Post(TitleInputBox.Text, ContentInputBox.Text, serverImgDir);
+            Post newPost = new Post(TitleInputBox.Text, ContentInputBox.Text, img64);
 
-            PostManager.InsertPost(newPost);
+            PostManager.AddPost(newPost);
         }
 
         private void SelectImgButton_Click(object sender, EventArgs e) {
@@ -78,6 +74,10 @@ namespace MaxiPostManager {
                 SelectedImgPathLabel.Text = openImg.FileName;
 
                 selectedImgPath = openImg.FileName;
+            }
+            else {
+
+                selectedImgPath = "";
             }
         }
     }
