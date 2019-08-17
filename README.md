@@ -6,4 +6,5 @@
 * Visual Studio
 ### Setup
 With your console of choice redirect to MaxiWebsite/MaxiBackend directory
-and run `npm install` to setup node.js and npm.
+and run `npm install` to setup node.js and npm. Also create an `images` folder. It is case senitive!
+
