@@ -1,0 +1,26 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.postContainer {
+    background-color: orange;
+    display: block;
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.post {
+    align-content: center;
+    display: block;
+    background-color: rgb(184, 28, 28);
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.post img {
+    max-width: 100%;
+    max-height: 100%;
+}

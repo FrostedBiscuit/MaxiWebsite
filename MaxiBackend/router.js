@@ -60,4 +60,49 @@ router.post(`/uploadPost`, (request, response) => {
     response.end();
 });
 
+// PATCH
+
+// This patch route is responsible for handling post updating
+router.patch(`/updatePost`, (request, response) => {
+
+    // Cache updated values in a variable
+    const updatedPost = request.body;
+
+    // First check if the image of a post was updated or not
+    if (updatedPost.Image64 == null) {
+
+        // Seeing it wasn't, we simply update the post's Title and Content based on the post date
+        database.update({ Date: updatedPost.Date }, { Title: updatedPost.Title, Content: updatedPost.Content }, {}, (error, numReplaced) => {
+            if (error) {
+                throw error;
+            }
+        });
+    }
+    else {
+
+        // Seeing there is an updated image, we first find the corresponding post
+        database.findOne({Date: updatedPost.Date}).exec((error, docs) => {
+            if (error) {
+                throw error;
+            }
+
+            // After the post is found, the data at the directory of the old post is updated
+            fs.writeFileSync(docs.ImagePath, updatedPost.Image64, (error) => {
+                if (error) {
+                    throw error;
+                }
+            });
+        });
+
+        // Then the rest of the post's data is updated
+        database.update({ Date: updatedPost.Date }, { Title: updatedPost.Title, Content: updatedPost.Content }, {}, (error, numReplaced) => {
+            if (error) {
+                throw error;
+            }
+        });
+    }
+
+    response.end();
+});
+
 module.exports = router;

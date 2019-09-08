@@ -5,6 +5,8 @@ async function GetPosts() {
 
     console.log(`Data gotted`);
 
+    const postContainer = document.getElementById(`postContainer`);
+
     for(post of data) {
 
         const postElement = document.createElement(`div`);
@@ -12,6 +14,7 @@ async function GetPosts() {
         const postContent = document.createElement(`p`);
         const postImg = document.createElement(`img`);
 
+        postElement.className = `post`;
 
         postTitle.textContent = post.Title;
         postContent.textContent = post.Content;
@@ -24,8 +27,10 @@ async function GetPosts() {
         postElement.appendChild(postContent);
         postElement.appendChild(postImg);
 
-        document.body.append(postElement);
+        postContainer.append(postElement);
     }
+
+    postContainer.className = `postContainer`
 }
 
 GetPosts();
