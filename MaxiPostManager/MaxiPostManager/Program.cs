@@ -11,7 +11,7 @@ namespace MaxiPostManager {
         /// </summary>
         [STAThread]
         static void Main() {
-
+            
             PostManager.Init();
 
             Application.EnableVisualStyles();

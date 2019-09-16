@@ -3,6 +3,7 @@ const router = express.Router();
 
 const fs = require(`fs`);
 
+const sizeof = require(`object-sizeof`);
 // GET
 
 router.get(`/getPosts`, (request, response) => {
@@ -15,16 +16,20 @@ router.get(`/getPosts`, (request, response) => {
             throw error;
         }
 
-        console.log(docs);
-
         for (post of docs) {
 
-            const img64 = fs.readFileSync(post.ImagePath, { encoding: 'utf8' });
+            if (post.ImagePath == null) {
+                continue;
+            }
+
+            const Image64 = fs.readFileSync(post.ImagePath, { encoding: 'utf8' });
 
             delete post.ImagePath;
-            post.Image64 = img64;
+            post.Image64 = Image64;
         }
         
+        console.log(`/getPosts route`);
+
         posts = docs;
 
         response.json(posts);
@@ -54,7 +59,18 @@ router.post(`/uploadPost`, (request, response) => {
     // Add a new element that describes the image path
     post.ImagePath = imgDir;
 
+    database.count({}, (error, count) => {
+
+        if (error) {
+            throw error;
+        }
+
+        post.ID = count;
+    });
+    
     database.insert(post);
+
+    console.log(`/uploadPost route`);
 
     // End response
     response.end();
@@ -67,21 +83,30 @@ router.patch(`/updatePost`, (request, response) => {
 
     // Cache updated values in a variable
     const updatedPost = request.body;
+    const testPost = updatedPost;
+
+    delete testPost.Image64;
+
+    console.log(testPost);
+
+    console.log(`/updatePost route`);
 
     // First check if the image of a post was updated or not
     if (updatedPost.Image64 == null) {
 
         // Seeing it wasn't, we simply update the post's Title and Content based on the post date
-        database.update({ Date: updatedPost.Date }, { Title: updatedPost.Title, Content: updatedPost.Content }, {}, (error, numReplaced) => {
+        database.update({ ID: updatedPost.ID }, { $set: { Title: updatedPost.Title, Content: updatedPost.Content } }, { upsert: false }, (error, numReplaced) => {
             if (error) {
                 throw error;
             }
+
+            console.log(`num replaced: ${numReplaced}`);
         });
     }
     else {
 
         // Seeing there is an updated image, we first find the corresponding post
-        database.findOne({Date: updatedPost.Date}).exec((error, docs) => {
+        database.findOne({ID: updatedPost.ID}).exec((error, docs) => {
             if (error) {
                 throw error;
             }
@@ -95,10 +120,12 @@ router.patch(`/updatePost`, (request, response) => {
         });
 
         // Then the rest of the post's data is updated
-        database.update({ Date: updatedPost.Date }, { Title: updatedPost.Title, Content: updatedPost.Content }, {}, (error, numReplaced) => {
+        database.update({ ID: updatedPost.ID }, { $set: { Title: updatedPost.Title, Content: updatedPost.Content } }, { upsert: false }, (error, numReplaced) => {
             if (error) {
                 throw error;
             }
+            
+            console.log(`num replaced: ${numReplaced}`);
         });
     }
 

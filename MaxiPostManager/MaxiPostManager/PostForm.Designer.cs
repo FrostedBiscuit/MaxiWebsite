@@ -25,6 +25,8 @@
         private void InitializeComponent() {
             System.Windows.Forms.Label TitleLabel;
             System.Windows.Forms.Label ContentLabel;
+            System.Windows.Forms.Label lblContent;
+            System.Windows.Forms.Label lbTitle;
             this.TitleInputBox = new System.Windows.Forms.TextBox();
             this.ContentInputBox = new System.Windows.Forms.TextBox();
             this.SubmitButton = new System.Windows.Forms.Button();
@@ -33,10 +35,19 @@
             this.Tabs = new System.Windows.Forms.TabControl();
             this.NewPostTab = new System.Windows.Forms.TabPage();
             this.UpdatePostTab = new System.Windows.Forms.TabPage();
+            this.pbPicture = new System.Windows.Forms.PictureBox();
+            this.tbTitle = new System.Windows.Forms.TextBox();
+            this.cbTitle = new System.Windows.Forms.ComboBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.tbContent = new System.Windows.Forms.TextBox();
             TitleLabel = new System.Windows.Forms.Label();
             ContentLabel = new System.Windows.Forms.Label();
+            lblContent = new System.Windows.Forms.Label();
+            lbTitle = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
             this.NewPostTab.SuspendLayout();
+            this.UpdatePostTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleLabel
@@ -59,6 +70,27 @@
             ContentLabel.Size = new System.Drawing.Size(99, 25);
             ContentLabel.TabIndex = 2;
             ContentLabel.Text = "Content :";
+            // 
+            // lblContent
+            // 
+            lblContent.AutoSize = true;
+            lblContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            lblContent.Location = new System.Drawing.Point(1, 67);
+            lblContent.Name = "lblContent";
+            lblContent.Size = new System.Drawing.Size(99, 25);
+            lblContent.TabIndex = 6;
+            lblContent.Text = "Content :";
+            // 
+            // lbTitle
+            // 
+            lbTitle.AutoSize = true;
+            lbTitle.CausesValidation = false;
+            lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            lbTitle.Location = new System.Drawing.Point(3, 39);
+            lbTitle.Name = "lbTitle";
+            lbTitle.Size = new System.Drawing.Size(65, 25);
+            lbTitle.TabIndex = 4;
+            lbTitle.Text = "Title :";
             // 
             // TitleInputBox
             // 
@@ -84,7 +116,7 @@
             // SubmitButton
             // 
             this.SubmitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubmitButton.Location = new System.Drawing.Point(13, 394);
+            this.SubmitButton.Location = new System.Drawing.Point(754, 611);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(170, 36);
             this.SubmitButton.TabIndex = 4;
@@ -95,7 +127,7 @@
             // SelectImgButton
             // 
             this.SelectImgButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SelectImgButton.Location = new System.Drawing.Point(630, 436);
+            this.SelectImgButton.Location = new System.Drawing.Point(13, 518);
             this.SelectImgButton.Name = "SelectImgButton";
             this.SelectImgButton.Size = new System.Drawing.Size(158, 40);
             this.SelectImgButton.TabIndex = 5;
@@ -117,11 +149,12 @@
             // 
             this.Tabs.Controls.Add(this.NewPostTab);
             this.Tabs.Controls.Add(this.UpdatePostTab);
-            this.Tabs.Location = new System.Drawing.Point(0, -1);
+            this.Tabs.Location = new System.Drawing.Point(0, 1);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(802, 509);
-            this.Tabs.TabIndex = 7;
+            this.Tabs.Size = new System.Drawing.Size(943, 719);
+            this.Tabs.TabIndex = 1;
+            this.Tabs.Click += new System.EventHandler(this.Tabs_Click);
             // 
             // NewPostTab
             // 
@@ -134,26 +167,82 @@
             this.NewPostTab.Location = new System.Drawing.Point(4, 22);
             this.NewPostTab.Name = "NewPostTab";
             this.NewPostTab.Padding = new System.Windows.Forms.Padding(3);
-            this.NewPostTab.Size = new System.Drawing.Size(794, 483);
+            this.NewPostTab.Size = new System.Drawing.Size(935, 693);
             this.NewPostTab.TabIndex = 0;
             this.NewPostTab.Text = "New Post";
             this.NewPostTab.UseVisualStyleBackColor = true;
             // 
             // UpdatePostTab
             // 
+            this.UpdatePostTab.Controls.Add(this.pbPicture);
+            this.UpdatePostTab.Controls.Add(this.tbTitle);
+            this.UpdatePostTab.Controls.Add(this.cbTitle);
+            this.UpdatePostTab.Controls.Add(this.btnUpdate);
+            this.UpdatePostTab.Controls.Add(lblContent);
+            this.UpdatePostTab.Controls.Add(this.tbContent);
+            this.UpdatePostTab.Controls.Add(lbTitle);
             this.UpdatePostTab.Location = new System.Drawing.Point(4, 22);
             this.UpdatePostTab.Name = "UpdatePostTab";
             this.UpdatePostTab.Padding = new System.Windows.Forms.Padding(3);
-            this.UpdatePostTab.Size = new System.Drawing.Size(794, 483);
+            this.UpdatePostTab.Size = new System.Drawing.Size(935, 693);
             this.UpdatePostTab.TabIndex = 1;
             this.UpdatePostTab.Text = "Update Post";
             this.UpdatePostTab.UseVisualStyleBackColor = true;
+            // 
+            // pbPicture
+            // 
+            this.pbPicture.Location = new System.Drawing.Point(8, 219);
+            this.pbPicture.Name = "pbPicture";
+            this.pbPicture.Size = new System.Drawing.Size(906, 391);
+            this.pbPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPicture.TabIndex = 12;
+            this.pbPicture.TabStop = false;
+            // 
+            // tbTitle
+            // 
+            this.tbTitle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTitle.Location = new System.Drawing.Point(91, 35);
+            this.tbTitle.Name = "tbTitle";
+            this.tbTitle.Size = new System.Drawing.Size(823, 29);
+            this.tbTitle.TabIndex = 11;
+            // 
+            // cbTitle
+            // 
+            this.cbTitle.FormattingEnabled = true;
+            this.cbTitle.Location = new System.Drawing.Point(8, 3);
+            this.cbTitle.Name = "cbTitle";
+            this.cbTitle.Size = new System.Drawing.Size(906, 21);
+            this.cbTitle.TabIndex = 10;
+            this.cbTitle.SelectedIndexChanged += new System.EventHandler(this.cbTitle_SelectedIndexChanged);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(814, 616);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(110, 31);
+            this.btnUpdate.TabIndex = 9;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // tbContent
+            // 
+            this.tbContent.AcceptsReturn = true;
+            this.tbContent.AcceptsTab = true;
+            this.tbContent.AllowDrop = true;
+            this.tbContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbContent.Location = new System.Drawing.Point(6, 93);
+            this.tbContent.Multiline = true;
+            this.tbContent.Name = "tbContent";
+            this.tbContent.Size = new System.Drawing.Size(908, 120);
+            this.tbContent.TabIndex = 7;
             // 
             // PostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 505);
+            this.ClientSize = new System.Drawing.Size(940, 682);
             this.Controls.Add(this.Tabs);
             this.Controls.Add(this.SelectedImgPathLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -164,6 +253,9 @@
             this.Tabs.ResumeLayout(false);
             this.NewPostTab.ResumeLayout(false);
             this.NewPostTab.PerformLayout();
+            this.UpdatePostTab.ResumeLayout(false);
+            this.UpdatePostTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,5 +271,10 @@
         private System.Windows.Forms.TabControl Tabs;
         private System.Windows.Forms.TabPage NewPostTab;
         private System.Windows.Forms.TabPage UpdatePostTab;
+        private System.Windows.Forms.TextBox tbContent;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.ComboBox cbTitle;
+        private System.Windows.Forms.TextBox tbTitle;
+        private System.Windows.Forms.PictureBox pbPicture;
     }
 }
