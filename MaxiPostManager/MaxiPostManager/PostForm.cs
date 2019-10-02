@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MaxiPostManager {
@@ -69,12 +69,13 @@ namespace MaxiPostManager {
             string imgExtension = Path.GetExtension(selectedImgPath).ToLower();
             string img64 = $"data:image/{imgExtension};base64,{Convert.ToBase64String(File.ReadAllBytes(selectedImgPath))}";
 
+            selectedImgPath = "";
+
             Post newPost = new Post(TitleInputBox.Text, ContentInputBox.Text, img64);
 
             PostManager.AddPost(newPost);
             PostManager.RefreshPosts();
             clearInputForm();
-
         }
 
         private void SelectImgButton_Click(object sender, EventArgs e) {
@@ -101,6 +102,8 @@ namespace MaxiPostManager {
                 SelectedImgPathLabel.Text = openImg.FileName;
 
                 selectedImgPath = openImg.FileName;
+
+                ImagePreviewPictureBox.Image = Image.FromFile(selectedImgPath);
             }
             else {
 
@@ -119,8 +122,8 @@ namespace MaxiPostManager {
             string rawImg64 = selectedPost.Image64.Substring(selectedPost.Image64.IndexOf(",") + 1);
 
             using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(rawImg64))) {
-                pbPicture.Image = System.Drawing.Image.FromStream(ms);
 
+                pbPicture.Image = System.Drawing.Image.FromStream(ms);
             }
 
             Console.WriteLine(selectedPost.Image64 == null ? $"No image on post {selectedPost.ID}" : $"Yes image, post: {selectedPost.ID}");
@@ -146,9 +149,44 @@ namespace MaxiPostManager {
                 string img64 = $"data:image/{imgExtension};base64,{Convert.ToBase64String(File.ReadAllBytes(selectedImgPath))}";
 
                 updatedPost.Image64 = img64;
+
+                selectedImgPath = "";
             }
 
             PostManager.UpdatePost(updatedPost);
+        }
+
+        private void SelectUpdatedImageButton_Click(object sender, EventArgs e) {
+
+            OpenFileDialog openImg = new OpenFileDialog {
+
+                InitialDirectory = @"C:\",
+                Title = "Select image",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "jpeg",
+                Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF",
+                FilterIndex = 2,
+
+                RestoreDirectory = true
+            };
+
+            if (openImg.ShowDialog() == DialogResult.OK) {
+
+                Console.WriteLine($"Opened image: {openImg.FileName}");
+
+                SelectedImgPathLabel.Text = openImg.FileName;
+
+                selectedImgPath = openImg.FileName;
+
+                pbPicture.Image = Image.FromFile(selectedImgPath);
+            }
+            else {
+
+                selectedImgPath = "";
+            }
         }
     }
 }

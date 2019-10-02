@@ -83,11 +83,8 @@ router.patch(`/updatePost`, (request, response) => {
 
     // Cache updated values in a variable
     const updatedPost = request.body;
-    const testPost = updatedPost;
 
-    delete testPost.Image64;
-
-    console.log(testPost);
+    console.log(updatedPost);
 
     console.log(`/updatePost route`);
 
@@ -105,11 +102,15 @@ router.patch(`/updatePost`, (request, response) => {
     }
     else {
 
+        console.log('Image');
+
         // Seeing there is an updated image, we first find the corresponding post
         database.findOne({ID: updatedPost.ID}).exec((error, docs) => {
             if (error) {
                 throw error;
             }
+
+            console.log(docs.ImagePath);
 
             // After the post is found, the data at the directory of the old post is updated
             fs.writeFileSync(docs.ImagePath, updatedPost.Image64, (error) => {
