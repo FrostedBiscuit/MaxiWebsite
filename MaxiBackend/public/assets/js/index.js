@@ -53,7 +53,7 @@ async function GetPosts() {
         
         postElement.append(rowDiv);
         postElement.className = `container`;
-        postElement.style = `margin-top: 20px`;
+        postElement.style = `margin-top: 25px`;
         postElement.setAttribute(`data-aos`, `fade-up`);
         postElement.setAttribute(`data-aos-delay`, `100`);
 
