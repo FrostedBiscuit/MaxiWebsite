@@ -1,6 +1,7 @@
 NavBarMaxi
 MaxiBackend/images/*
 MaxiBackend/node_modules
+MaxiBackend/.env
 
 *.db
 

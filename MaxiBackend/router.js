@@ -3,7 +3,6 @@ const router = express.Router();
 
 const fs = require(`fs`);
 
-const sizeof = require(`object-sizeof`);
 // GET
 
 router.get(`/getPosts`, (request, response) => {

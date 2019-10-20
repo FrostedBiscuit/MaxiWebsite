@@ -1,8 +1,8 @@
+require(`dotenv`).config();
+
 const express = require(`express`);
 const app = express();
 const router = require(`./router`);
-
-const PORT = 3000;
 
 const nedb = require(`nedb`);
 global.database = new nedb(`posts.db`);
@@ -30,7 +30,7 @@ app.use(express.static(`public`));
 app.use(express.json({limit: '10mb', extended: 'true'}));
 app.use(router);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
 
-    console.log(`Listening at port ${PORT}`);
+    console.log(`Listening at port ${process.env.PORT}`);
 });
